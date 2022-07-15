@@ -1,5 +1,7 @@
 package ru.job4j.cars.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +21,7 @@ import java.util.List;
 @Controller
 public class AdvertController {
 
+    static final Logger log = LoggerFactory.getLogger(AdvertController.class);
     private final AdvertService advertService;
 
     public AdvertController(AdvertService advertService) {
@@ -27,6 +30,7 @@ public class AdvertController {
 
     @GetMapping("/")
     public String getGreeting() {
+        log.info("Method {} run", "getGreeting");
         return "index";
     }
 
@@ -35,6 +39,8 @@ public class AdvertController {
         List<Advert> adverts = advertService.findAllAdverts();
         model.addAttribute("adverts", adverts);
         model.addAttribute("user", session.getAttribute("user"));
+
+        log.info("Method {} run", "getAdverts");
         return "ads";
     }
 
@@ -42,6 +48,8 @@ public class AdvertController {
     public String addAdvert(@ModelAttribute("advert") Advert advert,
                             Model model, HttpSession session) {
         model.addAttribute("user", session.getAttribute("user"));
+
+        log.info("Method {} run", "addAdvert");
         return "add";
     }
 
@@ -51,6 +59,8 @@ public class AdvertController {
         Advert advert = advertService.findAdvertById(advertId);
         model.addAttribute("user", session.getAttribute("user"));
         model.addAttribute("advert", advert);
+
+        log.info("Method {} run", "getDetails");
         return "details";
     }
 
@@ -60,12 +70,16 @@ public class AdvertController {
         List<Advert> adverts = advertService.findAdvertsByUserId(user.getId());
         model.addAttribute("user", user);
         model.addAttribute("adverts", adverts);
+
+        log.info("Method {} run", "getMyAds");
         return "myAds";
     }
 
     @GetMapping("/del{advertId}")
     public String deleteMyAds(@RequestParam(value = "advertId") Integer advertId) {
         advertService.deleteAdvertById(advertId);
+
+        log.info("Method {} run", "deleteMyAds");
         return "redirect:/myAds";
     }
 
@@ -77,6 +91,8 @@ public class AdvertController {
         Advert advert = advertService.findAdvertById(advertId);
         model.addAttribute("user", session.getAttribute("user"));
         model.addAttribute("advert", advert);
+
+        log.info("Method {} run", "getEditAds");
         return "editAds";
     }
 
@@ -89,8 +105,9 @@ public class AdvertController {
         User user = (User) sc.getAttribute("user");
         model.addAttribute("user", user);
         advert.setUser(user);
-
         advertService.save(advert, file);
+
+        log.info("Method {} run", "editAds");
         return "redirect:/myAds";
     }
 
@@ -105,6 +122,8 @@ public class AdvertController {
                 drive, fuel);
         model.addAttribute("user", session.getAttribute("user"));
         model.addAttribute("adverts", adverts);
+
+        log.info("Method {} run", "filterAdverts");
         return "ads";
     }
 }

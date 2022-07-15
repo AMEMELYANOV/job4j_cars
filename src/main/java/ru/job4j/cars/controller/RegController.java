@@ -1,5 +1,7 @@
 package ru.job4j.cars.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,6 +14,7 @@ import ru.job4j.cars.service.UserService;
 @Controller
 public class RegController {
 
+    static final Logger log = LoggerFactory.getLogger(RegController.class);
     private final UserService userService;
 
     public RegController(UserService userService) {
@@ -28,6 +31,8 @@ public class RegController {
             return "redirect:/reg?password=true";
         }
         userService.add(user);
+
+        log.info("Method {} run", "regSave");
         return "redirect:/login";
     }
 
@@ -43,6 +48,8 @@ public class RegController {
             errorMessage = "Аккаунт уже существует!";
         }
         model.addAttribute("errorMessage", errorMessage);
+
+        log.info("Method {} run", "regPage");
         return "reg";
     }
 }

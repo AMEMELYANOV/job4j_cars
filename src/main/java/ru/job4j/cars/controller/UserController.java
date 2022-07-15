@@ -1,5 +1,7 @@
 package ru.job4j.cars.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,6 +14,7 @@ import ru.job4j.cars.service.UserService;
 @Controller
 public class UserController {
 
+    static final Logger log = LoggerFactory.getLogger(UserController.class);
     private final UserService userService;
 
     public UserController(UserService userService) {
@@ -29,6 +32,8 @@ public class UserController {
 
         User user = userService.findUserById(userId);
         model.addAttribute("user", user);
+
+        log.info("Method {} run", "getEdit");
         return "userEdit";
     }
 
@@ -41,6 +46,8 @@ public class UserController {
             userService.update(user);
             return "redirect:/ads";
         }
+
+        log.info("Method {} run", "userEdit");
         return "redirect:/userEdit?userId=" + user.getId() + "&password=true";
     }
 }

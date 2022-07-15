@@ -1,5 +1,7 @@
 package ru.job4j.cars.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +14,7 @@ import javax.servlet.http.HttpSession;
 @Controller
 public class LoginController {
 
+    static final Logger log = LoggerFactory.getLogger(LoginController.class);
     private final UserService userService;
 
     public LoginController(UserService userService) {
@@ -30,6 +33,8 @@ public class LoginController {
             errorMessage = "Вы вышли!";
         }
         model.addAttribute("errorMessage", errorMessage);
+
+        log.info("Method {} run", "loginPage");
         return "login";
     }
 
@@ -41,12 +46,16 @@ public class LoginController {
             session.setAttribute("user", userFromDB);
             return "redirect:/ads";
         }
+
+        log.info("Method {} run", "loginUser");
         return "redirect:/login?error=true";
     }
 
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
     public String logoutPage(HttpSession session) {
         session.invalidate();
+
+        log.info("Method {} run", "logoutPage");
         return "redirect:/login?logout=true";
     }
 }
