@@ -9,30 +9,30 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav mr-auto">
-                <li th:if="${user != null}" class="nav-item">
+                <li th:if="${user} != null and ${user.active} == true" class="nav-item">
                     <a class="nav-link" th:href="@{/ads}">Объявления</a>
                 </li>
-                <li th:if="${user != null}" class="nav-item">
+                <li th:if="${user} != null and ${user.active} == true" class="nav-item">
                     <a class="nav-link" th:href="@{/userEdit(userId=${user.id})}">Профиль</a>
                 </li>
-                <li th:if="${user != null}" class="nav-item">
+                <li th:if="${user} != null and ${user.active} == true" class="nav-item">
                     <a class="nav-link" th:href="@{/add}">Новое объявление</a>
                 </li>
-                <li th:if="${user != null}" class="nav-item">
+                <li th:if="${user} != null and ${user.active} == true" class="nav-item">
                     <a class="nav-link" th:href="@{/myAds}">Мои объявления</a>
                 </li>
             </ul>
             <ul class="navbar-nav ml-auto">
-                <li th:if="${user == null}" class="nav-item">
+                <li th:if="${user} == null or (${user} != null and ${user.active} == false)" class="nav-item">
                     <a class="nav-link" th:href="@{/login}">Войти</a>
                 </li>
-                <li th:if="${user == null}" class="nav-item">
+                <li th:if="${user} == null or (${user} != null and ${user.active} == false)" class="nav-item">
                     <a class="nav-link" th:href="@{/reg}">Регистрация</a>
                 </li>
-                <li th:if="${user != null}" class="nav-item">
+                <li th:if="${user} != null and ${user.active} == true" class="nav-item">
                     <a class="nav-link" th:text="'Вы вошли как : ' + ${user.username}"></a>
                 </li>
-                <li th:if="${user != null}" class="nav-item">
+                <li th:if="${user} != null and ${user.active} == true" class="nav-item">
                     <a class="nav-link" th:href="@{/logout}">Выйти</a>
                 </li>
             </ul>

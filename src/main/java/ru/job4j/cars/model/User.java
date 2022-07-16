@@ -6,6 +6,9 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,19 +23,29 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @NotBlank(message = "Поле не должно быть пустым")
+    @Size(min = 5, message = "Имя пользователя должно быть не менее 5 символов")
     private String username;
 
     @Column(unique = true)
+    @NotBlank(message = "Поле не должно быть пустым")
     private String email;
 
+    @NotBlank(message = "Поле не должно быть пустым")
+    @Size(min = 4, message = "Пароль пользователя должен быть не менее 4 символов")
     private String password;
 
+    @NotBlank(message = "Поле не должно быть пустым")
+    @Pattern(regexp = "\\+\\d{11}",
+            message = "Должно быть в формате \"+\" и 11 значный номер")
     private String phonenumber;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL,
-    orphanRemoval = true, fetch = FetchType.LAZY)
+            orphanRemoval = true, fetch = FetchType.LAZY)
     @ToString.Exclude
     private List<Advert> adverts = new ArrayList<>();
+
+    private boolean active;
 
     public static User of(String username, String email, String password, String phonenumber) {
         User user = new User();

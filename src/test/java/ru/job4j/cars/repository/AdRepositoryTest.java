@@ -50,7 +50,7 @@ class AdRepositoryTest {
                         Transmission.of("transmission2"),
                         2, 2),
                 2, "city2");
-        user = User.of("username", "email", "password", "phonenumber");
+        user = User.of("username", "email", "password", "+79059991111");
     }
 
     @Test

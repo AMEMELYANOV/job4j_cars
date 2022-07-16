@@ -21,23 +21,32 @@
             </div>
             <div class="card-body">
                 <div style="color:#ff0000;" th:if="${param.password}">
-                    <div th:text = "${errorMessage}"></div>
+                    <div th:text="${errorMessage}"></div>
                 </div>
                 <div style="color:#ff0000;" th:if="${param.account}">
-                    <div th:text = "${errorMessage}"></div>
+                    <div th:text="${errorMessage}"></div>
                 </div>
-                <form th:action="@{/reg}" method="POST">
+                <form th:action="@{/reg}" method="POST" th:object="${user}">
                     <div class="form-group">
                         <label>Ваше имя</label>
-                        <input type="text" class="form-control" name="username">
+                        <input type="text" class="form-control" name="username" th:field="*{username}">
+                        <span style="color:#ff0000;"
+                              th:if="${#fields.hasErrors('username')}"
+                              th:errors="*{username}">UserName Error</span>
                     </div>
                     <div class="form-group">
                         <label>Почта (аккаунт)</label>
-                        <input type="email" class="form-control" name="email">
+                        <input type="email" class="form-control" name="email" th:field="*{email}">
+                        <span style="color:#ff0000;"
+                              th:if="${#fields.hasErrors('email')}"
+                              th:errors="*{email}">Email Error</span>
                     </div>
                     <div class="form-group">
                         <label>Пароль</label>
-                        <input type="password" class="form-control" name="password">
+                        <input type="password" class="form-control" name="password" th:field="*{password}">
+                        <span style="color:#ff0000;"
+                              th:if="${#fields.hasErrors('password')}"
+                              th:errors="*{password}">Password Error</span>
                     </div>
                     <div class="form-group">
                         <label>Повторите пароль</label>
@@ -45,7 +54,10 @@
                     </div>
                     <div class="form-group">
                         <label>Телефонный номер</label>
-                        <input type="text" class="form-control" name="phonenumber">
+                        <input type="text" class="form-control" name="phonenumber"  th:field="*{phonenumber}">
+                        <span style="color:#ff0000;"
+                              th:if="${#fields.hasErrors('phonenumber')}"
+                              th:errors="*{phonenumber}">Phonenumber Error</span>
                     </div>
                     <button type="submit" class="btn btn-secondary">Продолжить</button>
                 </form>

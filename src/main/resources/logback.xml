@@ -46,7 +46,7 @@
             </Pattern>
         </layout>
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
-            <level>INFO</level>
+            <level>DEBUG</level>
             <onMatch>ACCEPT</onMatch>
             <onMismatch>DENY</onMismatch>
         </filter>
@@ -54,8 +54,8 @@
     </appender>
 
     <root level="debug">
-        <appender-ref ref="FILE-ROLLING-DEBUG"/>
-        <appender-ref ref="FILE-ROLLING-INFO"/>
+<!--        <appender-ref ref="FILE-ROLLING-DEBUG"/>-->
+<!--        <appender-ref ref="FILE-ROLLING-INFO"/>-->
         <appender-ref ref="CONSOLE"/>
     </root>
 

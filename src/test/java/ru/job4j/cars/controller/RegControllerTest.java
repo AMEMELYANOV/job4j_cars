@@ -4,6 +4,7 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import ru.job4j.cars.model.User;
 import ru.job4j.cars.service.UserService;
 
@@ -22,9 +23,10 @@ class RegControllerTest {
     void whenRegSaveSuccess() {
         String repassword = "password";
         UserService userService = mock(UserService.class);
+        Errors errors = mock(Errors.class);
 
         RegController regController = new RegController(userService);
-        String template = regController.regSave(user, repassword);
+        String template = regController.regSave(user, errors, repassword);
 
         verify(userService, times(1)).add(user);
         Assertions.assertThat(template).isEqualTo("redirect:/login");
@@ -34,10 +36,11 @@ class RegControllerTest {
     void whenRegSaveIfUserExist() {
         String repassword = "password";
         UserService userService = mock(UserService.class);
+        Errors errors = mock(Errors.class);
         doReturn(new User()).when(userService).findUserByEmail(user.getEmail());
 
         RegController regController = new RegController(userService);
-        String template = regController.regSave(user, repassword);
+        String template = regController.regSave(user, errors, repassword);
 
         verify(userService, times(0)).add(user);
         Assertions.assertThat(template).isEqualTo("redirect:/reg?account=true");
@@ -47,9 +50,10 @@ class RegControllerTest {
     void whenRegSaveIfPasswordNotEqual() {
         String repassword = "pwd";
         UserService userService = mock(UserService.class);
+        Errors errors = mock(Errors.class);
 
         RegController regController = new RegController(userService);
-        String template = regController.regSave(user, repassword);
+        String template = regController.regSave(user, errors, repassword);
 
         verify(userService, times(0)).add(user);
         Assertions.assertThat(template).isEqualTo("redirect:/reg?password=true");
